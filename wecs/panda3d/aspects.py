@@ -58,6 +58,11 @@ avatar = Aspect([character, walking],
                 overrides={panda3d.Model: dict(model_name='rebecca.bam')})
 
 
+ball = Aspect([panda3d.BumpingMovement],
+            overrides={panda3d.Model:dict(model_name="ball")})
+            
+            
+
 def spectator_bumper():
     return dict(
         solids={

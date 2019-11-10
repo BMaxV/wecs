@@ -14,8 +14,38 @@ from .character import JumpingMovement
 @Component()
 class Input:
     pass
+    
+@Component()
+class Flipper:
+    pass
 
 
+class AcceptFlipperInput(System):
+    entity_filter:{
+    #   "name"   : and... ([list of components])
+        "flipper": and_filter([
+        CharacterController,
+            Input,
+            Flipper,
+        ]),
+        }
+    
+    def update(self, entities_by_filter):
+        for entity in entities_by_filter['flipper']:
+            character = entity[CharacterController]
+            character.heading = 0.0
+            # For debug purposes, emulate analog stick on keyboard
+            # input, being half-way pressed, by holding shift
+            
+            if entity.left:
+                if base.mouseWatcherNode.is_button_down(KeyboardButton.ascii_key("a")):
+                    character.heading += 1
+                    
+            if entity.right:
+                if base.mouseWatcherNode.is_button_down(KeyboardButton.ascii_key("d")):
+                    character.heading -= 1
+        
+                
 class AcceptInput(System):
     entity_filters = {
         'character': and_filter([
